@@ -1,8 +1,8 @@
 # iterlabs-site
 
-> Source of [iterlabs.com.br](https://iterlabs.com.br) — the bilingual (EN/PT) portfolio of **Giuseppe Ferretti**, AI Automation Engineer: production case studies with cinematic motion design.
+> Source of [portfolio.iterlabs.com.br](https://portfolio.iterlabs.com.br) — the bilingual (EN/PT) portfolio of **Giuseppe Ferretti**, AI Automation Engineer: production case studies with cinematic motion design.
 
-**Live:** https://iterlabs.com.br
+**Live:** https://portfolio.iterlabs.com.br
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### What it is
 
-The portfolio site behind iterlabs.com.br. English-first with a full Portuguese mirror under `/pt`, four production case studies rendered as individual work pages, and a motion system built on scroll-driven pinning and staged reveals.
+The portfolio site behind portfolio.iterlabs.com.br. English-first with a full Portuguese mirror under `/pt`, four production case studies rendered as individual work pages, and a motion system built on scroll-driven pinning and staged reveals.
 
 ### Stack
 
@@ -47,7 +47,7 @@ Motion rules for contributors live in [CLAUDE.md](CLAUDE.md) (ownership per libr
 
 ## 🇧🇷 Português
 
-Código-fonte do [iterlabs.com.br](https://iterlabs.com.br) — portfólio bilíngue de Giuseppe Ferretti (inglês padrão, espelho completo em `/pt`), com estudos de caso de automação em produção e motion design cinematográfico (GSAP + Framer Motion + Lenis sobre Next.js 15).
+Código-fonte do [portfolio.iterlabs.com.br](https://portfolio.iterlabs.com.br) — portfólio bilíngue de Giuseppe Ferretti (inglês padrão, espelho completo em `/pt`), com estudos de caso de automação em produção e motion design cinematográfico (GSAP + Framer Motion + Lenis sobre Next.js 15).
 
 ```bash
 npm install && npm run dev   # http://localhost:3000

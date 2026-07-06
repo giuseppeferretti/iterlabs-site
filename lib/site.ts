@@ -2,7 +2,7 @@
  * Global site constants — single source of truth for URLs and identity.
  */
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://iterlabs.com.br";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://portfolio.iterlabs.com.br";
 
 export const SITE_NAME = "Iter Labs";
 export const PERSON_NAME = "Giuseppe Ferretti";

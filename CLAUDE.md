@@ -1,72 +1,55 @@
-# CLAUDE.md — site gerado por `/site`
+# CLAUDE.md — motion & contribution rules
 
-Este arquivo é a **referência operacional** pra quem (ou o que) for editar esse site. Foi copiado pelo template e contém as regras mínimas pra manter a coerência do padrão Cinematic Experience.
+Operating reference for anyone (human or agent) editing this site. The design language is
+"cinematic, deliberate": scroll-driven scenes, slow reveals, restrained motion.
 
-A fonte completa da skill `/site` vive em `~/.claude/skills/site/SKILL.md` e `~/.claude/skills/site/AI-NATIVE-MANIFESTO.md`. Este arquivo é um resumo local pra editores que vão mexer só nesse site.
+## Motion ownership
 
-## Motion ownership — regra crítica
+Each library has exactly one job. Never mix them:
 
-Cada lib tem um papel exclusivo. Não misturar:
+- **Lenis** owns scroll smoothing (`LenisProvider` in the root layout). Never animate elements with it.
+- **GSAP + ScrollTrigger** owns scroll-bound movement: **pin**, **scrub**, dive-in/out, scroll-driven camera.
+- **Framer Motion** owns mount/`whileInView` reveals, card staggers, hover, layout animations.
+- **`useSpring`** (Framer) for reactive physics (cursor, magnetic, continuous-input values).
 
-- **Lenis** governa a suavização do scroll (LenisProvider no layout). Não animar elemento via Lenis.
-- **GSAP + ScrollTrigger** governa movimento ligado a scroll: **pin**, **scrub**, dive-in/dive-out, scroll-driven camera, takeover. Use em cenas pinadas (hero, interlude, testimonial).
-- **Framer Motion** governa **mount/whileInView reveal**, **stagger de cards**, hover, **layout animations**, magnetic interactions. Não usar pra pin (deixa pro GSAP).
-- **`useSpring`** (Framer) pra física reativa (cursor, magnetic, valores que reagem a input contínuo).
+Rule of thumb: pinned? GSAP. Stagger/hover? Framer. Global scroll feel? Lenis.
 
-Heurística: pinou? GSAP. Stagger/hover? Framer. Suavização do scroll global? Lenis.
+## Timing & easing canon
 
-## Timing & easing canon — regra crítica
+Cinematic sites are **slow on purpose**:
 
-Sites cinematográficos são **lentos com intenção**:
-
-| Contexto | Duration mínima | Easing canônico | Stagger |
+| Context | Min duration | Canonical easing | Stagger |
 |---|---|---|---|
-| Mount/whileInView reveal (Framer) | **0.6s** | `[0.16, 1, 0.3, 1]` | **0.2s** entre items |
-| Pin section entrance (GSAP scrub) | 1.0s+ (scrub controla) | `power3.out` | 0.2s |
-| Pin section exit / dive-out | 0.4-0.6s | `power2.in` | — |
-| Interlude dive-in / dive-out | 0.6-0.8s | `expo.out` / `power2.in` | — |
-| Card grid "deck-dealt" (Framer) | 1.0-1.2s | `[0.22, 1, 0.36, 1]` | **0.2s × index** |
-| Hover / micro-interação | 0.2-0.4s | `out-smooth` / `power2.out` | — |
-| Scrub-driven (GSAP) | controlado por scroll | `ease: "none"` | — |
-| Ambient infinito (CSS / mesh) | 5-12s | `ease-in-out` | — |
+| Mount / `whileInView` reveal (Framer) | **0.6s** | `[0.16, 1, 0.3, 1]` | **0.2s** per item |
+| Pin-section entrance (GSAP scrub) | 1.0s+ (scrub-driven) | `power3.out` | 0.2s |
+| Pin-section exit / dive-out | 0.4–0.6s | `power2.in` | — |
+| Card grid "deck-dealt" (Framer) | 1.0–1.2s | `[0.22, 1, 0.36, 1]` | **0.2s × index** |
+| Hover / micro-interaction | 0.2–0.4s | `power2.out` | — |
+| Scrub-driven (GSAP) | scroll-controlled | `ease: "none"` | — |
+| Infinite ambient (CSS / mesh) | 5–12s | `ease-in-out` | — |
 
-**Banido:** `duration <0.6s` em entradas (não-hover), `staggerChildren <0.2`, easings fora canon, easeIn puro.
+**Banned:** entrance `duration < 0.6s` (non-hover), `staggerChildren < 0.2`, non-canon easings, pure ease-in.
+**Allowed exceptions:** `useSpring` physics, `ease: "none"` on scrub, hover ≤ 0.4s. Mark a legitimate
+exception with `// audit-ignore: <reason>` on the offending line.
 
-**Exceções permitidas:** `useSpring` (física), `ease: "none"` em scrub, hover ≤0.4s. Pra marcar exceção legítima, adicionar comentário `// audit-ignore: <motivo>` na linha.
-
-## Audit motion pre-deploy
-
-Antes de declarar pronto:
+## Pre-deploy checks
 
 ```bash
-node scripts/audit-motion.mjs
+node scripts/audit-motion.mjs                       # exits 1 on blocking motion violations
+node scripts/visual-check.mjs http://localhost:3000 # console errors + screenshots in .snapshots/
+npm run build && npm run lint
 ```
 
-Exit code 1 se houver violations bloqueantes (duration <0.6s em entrada, easing fora canon, stagger <0.2s em lista).
+Reading the generated screenshots is mandatory — an invisible animation is worse than none.
 
-## Visual-check obrigatório
+## Canonical components — reuse, don't fork
 
-```bash
-node scripts/visual-check.mjs http://localhost:<porta>
-```
+`components/motion/` primitives are canonical: `lenis-provider`, `gsap-scroll-pin`,
+`mesh-gradient-canvas`, `noise-overlay`, `scroll-indicator`, `reveal`, `split-text-reveal`,
+`kinetic-headline`, `magnetic`, `glass-card`.
 
-Visual-check só pega erros de console. **Ler os screenshots gerados** em `.snapshots/` é obrigatório — animação invisível é pior que sem animação.
+## Content
 
-## Componentes que não toque sem motivo
-
-Esses ficam em `components/motion/` e são canônicos da skill. Reutilize:
-
-- `lenis-provider` · `gsap-scroll-pin` (helpers)
-- `mesh-gradient-canvas` · `cursor-intel` · `noise-overlay` (ambient root)
-- `scroll-indicator` · `hero-video` (hero)
-- `reveal` · `split-text-reveal` · `kinetic-headline` (typo)
-- `magnetic` · `glass-card` · `path-draw` · `dust-motes` (UI motion)
-
-## Padrão do hero
-
-- **Background:** vídeo loop fullbleed (`<HeroVideo>`) — fonte: Pexels/Coverr/Mixkit/Pixabay. Foto fullbleed só como fallback se vídeo não fizer sentido.
-- **Headline:** tensão tipográfica (letterSpacing `-0.06em` → `-0.02em` em sync com opacity reveal).
-- **ScrollIndicator** obrigatório no canto inferior central.
-- Pin via GSAP (2-3vh trigger).
-
-Detalhes completos em `~/.claude/skills/site/SKILL.md`.
+All copy lives in `lib/content.ts` (typed EN/PT dictionaries) — edit copy there only.
+Site constants (URL, email, links) live in `lib/site.ts`. Case-study data feeds
+`components/case-page.tsx`; never hardcode copy inside sections.
