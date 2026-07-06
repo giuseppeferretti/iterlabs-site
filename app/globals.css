@@ -1,0 +1,187 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   TOKENS — Light + Dark
+   Customizable por briefing: --primary, --warmth.
+   Base sóbria (preto/cinzas/bege) é o padrão visual do preset.
+   ============================================================ */
+
+@layer base {
+  :root {
+    --background: 35 14% 96%;
+    --foreground: 0 0% 8%;
+
+    --muted: 35 12% 92%;
+    --muted-foreground: 0 0% 40%;
+
+    /* Primary — default navy. Customize por briefing. */
+    --primary: 218 55% 30%;
+    --primary-foreground: 35 25% 96%;
+
+    /* Warmth — acento dourado pra destaques esparsos (versículos, números, gradientes). */
+    --warmth: 41 72% 52%;
+
+    --accent: 35 12% 90%;
+    --accent-foreground: 0 0% 8%;
+
+    --border: 35 8% 84%;
+    --input: 35 8% 84%;
+    --ring: 218 55% 30%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Preto profundo + cinzas */
+    --background: 0 0% 6%;
+    --foreground: 35 22% 90%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 62%;
+
+    --primary: 218 62% 52%;
+    --primary-foreground: 35 25% 95%;
+
+    --warmth: 41 78% 62%;
+
+    --accent: 0 0% 14%;
+    --accent-foreground: 35 22% 90%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 218 62% 52%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    /* Lenis takes care of smooth scroll. Native smooth conflicts with it. */
+    scroll-behavior: auto;
+    background: hsl(var(--background));
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    /* Sem bg-background — deixamos camadas root (MeshGradient) atravessarem */
+    @apply text-foreground font-sans antialiased;
+    background: transparent;
+    font-feature-settings: "cv11", "ss01", "ss03";
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.25);
+    color: hsl(var(--primary-foreground));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ============================================================
+   ESCALA TIPOGRÁFICA — sans (body) + serif display (Fraunces sugerido)
+   var(--font-display) é setada por next/font no layout.tsx.
+   Fallback: Georgia serif (visível mesmo sem font customizada).
+   ============================================================ */
+
+@layer components {
+  /* Display gigante (hero, interlude, CTA) */
+  .display-xl {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: clamp(3.5rem, 11vw, 9rem);
+    font-weight: 500;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+  }
+
+  .display {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 500;
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+  }
+
+  .h1 {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: clamp(2.75rem, 6vw, 4.5rem);
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+  }
+
+  .h2 {
+    font-family: var(--font-display), Georgia, serif;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .h3 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .body-lg {
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .body {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .label {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .section {
+    @apply py-20 md:py-32;
+  }
+
+  .container-tight {
+    @apply container max-w-7xl;
+  }
+}
