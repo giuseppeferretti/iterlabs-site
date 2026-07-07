@@ -1,6 +1,7 @@
 import * as React from "react";
 import { SiteHeader } from "@/components/site-header";
 import { HeroPortfolio } from "@/components/sections/hero-portfolio";
+import { StackMarquee } from "@/components/sections/stack-marquee";
 import { MetricsBar } from "@/components/sections/metrics-bar";
 import { WorkGrid } from "@/components/sections/work-grid";
 import { ServicesGrid } from "@/components/sections/services-grid";
@@ -11,7 +12,7 @@ import { getDictionary } from "@/lib/content";
 import type { Locale } from "@/lib/site";
 
 /**
- * Shared home page — rendered at "/" (EN) and "/pt" (PT).
+ * Shared home page - rendered at "/" (EN) and "/pt" (PT).
  */
 export function HomePage({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
@@ -22,6 +23,7 @@ export function HomePage({ locale }: { locale: Locale }) {
 
       <main>
         <HeroPortfolio hero={dict.hero} />
+        <StackMarquee items={dict.stack} />
         <MetricsBar items={dict.metrics} />
         <WorkGrid locale={locale} work={dict.work} cases={dict.cases} />
         <ServicesGrid services={dict.services} />

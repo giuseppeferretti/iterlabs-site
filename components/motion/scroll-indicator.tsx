@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /**
- * ScrollIndicator — indicador minimal no fim do hero. Linha vertical
+ * ScrollIndicator - indicador minimal no fim do hero. Linha vertical
  * pulsando + "ROLE" mono uppercase. Some opacity 1→0 conforme o user
  * faz os primeiros 10% do scroll. Hidden no mobile.
  *
@@ -21,9 +21,25 @@ export function ScrollIndicator({
   label?: string;
   className?: string;
 }) {
+  const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll();
   // Some nos primeiros 10% do scroll (típico = uma fração do hero pin)
   const opacity = useTransform(scrollYProgress, [0, 0.05, 0.1], [1, 0.6, 0]);
+
+  if (reduced) {
+    return (
+      <div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-foreground/40 md:flex",
+          className
+        )}
+      >
+        <span className="font-mono text-[10px] uppercase tracking-[0.32em]">{label}</span>
+        <div className="h-10 w-px bg-gradient-to-b from-foreground/40 to-transparent" />
+      </div>
+    );
+  }
 
   return (
     <motion.div

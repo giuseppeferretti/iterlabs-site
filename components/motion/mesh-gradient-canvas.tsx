@@ -14,7 +14,7 @@ export interface MeshGradientCanvasProps {
 }
 
 /**
- * Layer 1 — Ambient base. Mesh gradient WebGL via @paper-design/shaders-react,
+ * Layer 1 - Ambient base. Mesh gradient WebGL via @paper-design/shaders-react,
  * fixed full-screen atrás de TUDO. Cores morphando lentamente.
  *
  * Customize via `colors` (5 valores) pra refletir a paleta do site.
@@ -60,7 +60,7 @@ export function MeshGradientCanvas({
         }}
       />
 
-      {/* Vinheta radial — escurece bordas, mantém foco no centro */}
+      {/* Vinheta radial - escurece bordas, mantém foco no centro */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,rgba(0,0,0,0.6)_85%)]" />
     </div>
   );

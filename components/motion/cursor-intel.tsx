@@ -15,7 +15,7 @@ export interface CursorIntelProps {
 }
 
 /**
- * Cursor "inteligente" — glow segue o ponteiro com lag spring,
+ * Cursor "inteligente" - glow segue o ponteiro com lag spring,
  * mas REAGE ao contexto via atributo data-cursor:
  *  - default: glow padrão (380px, opacity 0.22, hue dourado 41)
  *  - sobre [data-cursor="cta"]: glow expande (560px, opacity 0.42, hue navy 218)

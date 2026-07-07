@@ -14,7 +14,7 @@ import { ScrollIndicator } from "@/components/motion/scroll-indicator";
 export interface HeroCinematicProps {
   /**
    * Path do vídeo de hero (mp4). Quando passado, renderiza HeroVideo no lugar da foto.
-   * Default da skill /site — buscar vídeo em Pexels/Coverr/Mixkit/Pixabay por keywords
+   * Default da skill /site - buscar vídeo em Pexels/Coverr/Mixkit/Pixabay por keywords
    * do briefing e colocar em /public/videos/hero.mp4.
    */
   videoSrc?: string;
@@ -89,7 +89,7 @@ export function HeroCinematic({
           style={reduced ? { opacity: 0.7 } : { opacity: overlayOpacity }}
         />
 
-        {/* Aurora morphing color blobs over the photo — gives the perpetual motion vibe */}
+        {/* Aurora morphing color blobs over the photo - gives the perpetual motion vibe */}
         <AuroraBackground intensity="normal" blendMode="overlay" />
 
         <div className="relative z-10 flex h-full flex-col">
@@ -177,7 +177,7 @@ export function HeroCinematic({
  * Reveal de fragment do headline com tensão tipográfica.
  * letterSpacing inicial -0.06em (apertado/tenso) → -0.02em (natural)
  * em sync com opacity + blur. Cria sensação de "respiração" antes de a palavra
- * se firmar — ver SKILL.md `## Hero` (tensão tipográfica).
+ * se firmar - ver SKILL.md `## Hero` (tensão tipográfica).
  */
 function FragmentReveal({
   text,

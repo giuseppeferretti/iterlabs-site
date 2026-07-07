@@ -17,18 +17,43 @@ export interface SiteHeaderProps {
 }
 
 /**
- * Sticky header — static (no entrance animation; motion is reserved for the hero).
+ * Sticky header - static (no entrance animation; motion is reserved for the hero).
  * Logo, section links, EN | PT switcher, theme toggle, book-a-call CTA.
  */
 export function SiteHeader({ locale, nav, bookCallHref }: SiteHeaderProps) {
   const [open, setOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
+  const progressRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Barra de progresso de scroll (gramática /osite) - escreve transform
+  // direto no DOM via ref + rAF, sem setState.
+  React.useEffect(() => {
+    let rafId = 0;
+    const paint = () => {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const p = max > 0 ? Math.min(1, doc.scrollTop / max) : 0;
+      if (progressRef.current) progressRef.current.style.transform = `scaleX(${p})`;
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(paint);
+    };
+    paint();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   const home = localePath(locale, "/");
@@ -43,9 +68,17 @@ export function SiteHeader({ locale, nav, bookCallHref }: SiteHeaderProps) {
     <header
       className={cn(
         "sticky top-0 z-40 w-full transition-colors duration-300 ease-out-smooth",
-        scrolled ? "border-b border-border bg-background/80 backdrop-blur" : "bg-background"
+        scrolled || open
+          ? "border-b border-border bg-background/80 backdrop-blur-md"
+          : "bg-transparent"
       )}
     >
+      {/* Progresso de leitura - primary → warmth */}
+      <div
+        ref={progressRef}
+        aria-hidden
+        className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-gradient-to-r from-primary via-primary to-warmth"
+      />
       <div className="container-tight flex h-16 items-center justify-between md:h-20">
         <Link
           href={home}

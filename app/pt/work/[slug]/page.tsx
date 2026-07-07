@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMetadata({
     locale: "pt",
     path: `/work/${slug}`,
-    title: `${caseStudy.metaTitle} — Iter Labs`,
+    title: `${caseStudy.metaTitle} - Iter Labs`,
     description: caseStudy.metaDescription,
     ogType: "article"
   });

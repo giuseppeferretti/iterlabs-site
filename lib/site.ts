@@ -1,5 +1,5 @@
 /**
- * Global site constants — single source of truth for URLs and identity.
+ * Global site constants - single source of truth for URLs and identity.
  */
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://portfolio.iterlabs.com.br";

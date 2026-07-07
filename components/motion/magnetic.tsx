@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export interface MagneticProps {
   children: React.ReactNode;
-  /** Força do pull (0.3 default — botões; 0.5 mais forte — logos). */
+  /** Força do pull (0.3 default - botões; 0.5 mais forte - logos). */
   strength?: number;
   /** Raio em px ao redor do elemento onde o pull começa. */
   radius?: number;

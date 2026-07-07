@@ -17,6 +17,11 @@ function DigitColumn({ digit, duration, delay, active }: DigitColumnProps) {
   const reduced = useReducedMotion();
   const target = parseInt(digit, 10);
 
+  if (digit === " ") {
+    // Whitespace collapses inside the flex wrapper - keep the gap explicit.
+    return <span className="inline-block w-[0.28em]" />;
+  }
+
   if (Number.isNaN(target)) {
     return <span className="inline-block">{digit}</span>;
   }
@@ -69,7 +74,8 @@ export function RollingNumber({
   const chars = String(value).split("");
 
   return (
-    <span ref={ref} className={cn("inline-flex items-end", className)}>
+    <span ref={ref} aria-label={String(value)} className={cn("inline-flex items-end", className)}>
+      <span aria-hidden className="inline-flex items-end">
       {chars.map((c, i) => (
         <DigitColumn
           key={`${i}-${c}`}
@@ -79,6 +85,7 @@ export function RollingNumber({
           active={inView}
         />
       ))}
+      </span>
     </span>
   );
 }

@@ -19,7 +19,8 @@ export function FooterSimple({ locale, dict }: FooterSimpleProps) {
   ];
 
   return (
-    <footer className="border-t border-border bg-muted/40">
+    <footer className="relative bg-muted/40">
+      <div aria-hidden className="hairline-glow absolute inset-x-0 top-0" />
       <div className="container-tight py-14 md:py-16">
         <div className="grid gap-10 lg:grid-cols-[1.5fr_2fr] lg:gap-20">
           <div>
@@ -55,7 +56,7 @@ export function FooterSimple({ locale, dict }: FooterSimpleProps) {
                       href={link.href}
                       target={link.href.startsWith("http") ? "_blank" : undefined}
                       rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      className="break-all text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
                       {link.label}
                     </a>

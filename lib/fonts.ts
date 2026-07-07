@@ -1,7 +1,7 @@
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 
 /**
- * Design system fonts — Fraunces (display serif) + Inter (body) + JetBrains Mono.
+ * Design system fonts - Fraunces (display serif) + Inter (body) + JetBrains Mono.
  * globals.css consumes var(--font-display), var(--font-sans), var(--font-mono).
  */
 

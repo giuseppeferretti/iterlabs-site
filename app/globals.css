@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ============================================================
-   TOKENS — Light + Dark
+   TOKENS - Light + Dark
    Customizable por briefing: --primary, --warmth.
    Base sóbria (preto/cinzas/bege) é o padrão visual do preset.
    ============================================================ */
@@ -16,11 +16,11 @@
     --muted: 35 12% 92%;
     --muted-foreground: 0 0% 40%;
 
-    /* Primary — default navy. Customize por briefing. */
+    /* Primary - default navy. Customize por briefing. */
     --primary: 218 55% 30%;
     --primary-foreground: 35 25% 96%;
 
-    /* Warmth — acento dourado pra destaques esparsos (versículos, números, gradientes). */
+    /* Warmth - acento dourado pra destaques esparsos (versículos, números, gradientes). */
     --warmth: 41 72% 52%;
 
     --accent: 35 12% 90%;
@@ -82,7 +82,7 @@
   }
 
   body {
-    /* Sem bg-background — deixamos camadas root (MeshGradient) atravessarem */
+    /* Sem bg-background - deixamos camadas root (MeshGradient) atravessarem */
     @apply text-foreground font-sans antialiased;
     background: transparent;
     font-feature-settings: "cv11", "ss01", "ss03";
@@ -106,7 +106,7 @@
 }
 
 /* ============================================================
-   ESCALA TIPOGRÁFICA — sans (body) + serif display (Fraunces sugerido)
+   ESCALA TIPOGRÁFICA - sans (body) + serif display (Fraunces sugerido)
    var(--font-display) é setada por next/font no layout.tsx.
    Fallback: Georgia serif (visível mesmo sem font customizada).
    ============================================================ */
@@ -184,4 +184,176 @@
   .container-tight {
     @apply container max-w-7xl;
   }
+}
+
+/* ============================================================
+   ART LAYERS - gramática /osite adaptada aos tokens do site.
+   Tudo decorativo: pure CSS, pointer-events-none, morto sob
+   prefers-reduced-motion (media query global acima).
+   ============================================================ */
+
+@layer components {
+  /* Halo luminoso (Aura) - radial 2 stops + blur, cores dos tokens */
+  .aura-primary {
+    background: radial-gradient(
+      closest-side,
+      hsl(var(--primary) / 0.3),
+      hsl(var(--primary) / 0.1) 55%,
+      transparent 76%
+    );
+    filter: blur(42px);
+  }
+
+  .aura-warmth {
+    background: radial-gradient(
+      closest-side,
+      hsl(var(--warmth) / 0.24),
+      hsl(var(--warmth) / 0.08) 52%,
+      transparent 74%
+    );
+    filter: blur(42px);
+  }
+
+  .dark .aura-primary {
+    background: radial-gradient(
+      closest-side,
+      hsl(var(--primary) / 0.38),
+      hsl(var(--primary) / 0.12) 55%,
+      transparent 76%
+    );
+  }
+
+  .dark .aura-warmth {
+    background: radial-gradient(
+      closest-side,
+      hsl(var(--warmth) / 0.26),
+      hsl(var(--warmth) / 0.09) 52%,
+      transparent 74%
+    );
+  }
+
+  /* Campo de pontos - textura técnica leve */
+  .dot-field {
+    background-image: radial-gradient(hsl(var(--foreground) / 0.14) 1px, transparent 1px);
+    background-size: 26px 26px;
+  }
+
+  /* Divisor com brilho - transição de seção "viva" */
+  .hairline-glow {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--primary) / 0.35) 22%,
+      hsl(var(--warmth) / 0.55) 50%,
+      hsl(var(--primary) / 0.35) 78%,
+      transparent
+    );
+  }
+
+  /* Gradiente de cena do hero - epicentro acima do centro */
+  .scene-hero {
+    background: radial-gradient(
+      120% 85% at 50% 0%,
+      hsl(var(--primary) / 0.1) 0%,
+      hsl(var(--primary) / 0.03) 45%,
+      transparent 72%
+    );
+  }
+
+  .dark .scene-hero {
+    background: radial-gradient(
+      120% 85% at 50% 0%,
+      hsl(var(--primary) / 0.17) 0%,
+      hsl(var(--primary) / 0.05) 45%,
+      transparent 72%
+    );
+  }
+
+  /* Palavra emocional do headline - gradiente primary → warmth em pan lento */
+  .text-accent-grad {
+    background-image: linear-gradient(
+      100deg,
+      hsl(var(--primary)),
+      hsl(var(--warmth)) 55%,
+      hsl(var(--primary))
+    );
+    background-size: 220% 100%;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: accent-grad-pan 9s ease-in-out infinite;
+  }
+}
+
+/* Keyframes das camadas de arte (ambient: 6-26s, ease-in-out) */
+@keyframes accent-grad-pan {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes aura-breathe {
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.07);
+  }
+}
+
+@keyframes aura-drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6vw, 4vh, 0) scale(1.08);
+  }
+}
+
+@keyframes aura-drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(-5vw, -5vh, 0) scale(1);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 hsl(var(--warmth) / 0.55);
+  }
+  50% {
+    opacity: 0.55;
+    box-shadow: 0 0 0 5px hsl(var(--warmth) / 0);
+  }
+}
+
+.animate-aura-breathe {
+  animation: aura-breathe 9s ease-in-out infinite;
+}
+
+.animate-aura-drift-a {
+  animation: aura-drift-a 26s ease-in-out infinite;
+}
+
+.animate-aura-drift-b {
+  animation: aura-drift-b 22s ease-in-out infinite;
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 2.6s ease-in-out infinite;
 }

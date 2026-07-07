@@ -18,12 +18,12 @@ interface HeroVideoProps {
 }
 
 /**
- * HeroVideo — vídeo cinematográfico fullbleed no background do hero.
+ * HeroVideo - vídeo cinematográfico fullbleed no background do hero.
  *
  * Setup canônico: autoPlay + muted + loop + playsInline + preload="auto".
  * Pausa quando off-screen (IntersectionObserver) pra economizar bateria.
  *
- * Buscar vídeos em Pexels/Coverr/Mixkit/Pixabay — ver SKILL.md
+ * Buscar vídeos em Pexels/Coverr/Mixkit/Pixabay - ver SKILL.md
  * `## Asset video search`. Alvo: <5MB, 720p+, 8-20s loopable, sem cortes
  * bruscos.
  *
@@ -48,7 +48,7 @@ export function HeroVideo({
       ([entry]) => {
         if (entry.isIntersecting) {
           video.play().catch(() => {
-            /* autoplay bloqueado em alguns contextos — fallback silencioso */
+            /* autoplay bloqueado em alguns contextos - fallback silencioso */
           });
         } else {
           video.pause();
